@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: GPL-2.0+
+if TARGET_BRAIN_GEN1
+config SYS_BOARD
+	default "brain-gen1"
+config SYS_VENDOR
+	default "sharp"
+config SYS_CONFIG_NAME
+	default "brain-gen1"
+endif

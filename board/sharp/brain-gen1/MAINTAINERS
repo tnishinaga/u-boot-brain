@@ -1,0 +1,6 @@
+SHARP BRAIN FIRST GENERATION
+M:      Brain Hackers <https://github.com/brain-hackers>
+S:      Maintained
+F:      board/sharp/brain-gen1/
+F:      include/configs/brain-gen1.h
+F:      configs/brain_gen1_defconfig
