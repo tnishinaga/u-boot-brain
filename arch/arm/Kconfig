@@ -534,6 +534,13 @@ config TARGET_GPLUGD
 	bool "Support gplugd"
 	select CPU_ARM926EJS
 
+config ARCH_TMPA9XX
+	bool "Toshiba TMPA9xx"
+	select CPU_ARM926EJS
+	select PL011_SERIAL
+	help
+	  Support for Toshiba TMPA9xx ARM926EJ-S processors.
+
 config ARCH_DAVINCI
 	bool "TI DaVinci"
 	select CPU_ARM926EJS
@@ -1952,6 +1959,8 @@ source "arch/arm/mach-snapdragon/Kconfig"
 source "arch/arm/mach-socfpga/Kconfig"
 
 source "arch/arm/mach-sti/Kconfig"
+
+source "arch/arm/mach-tmpa9xx/Kconfig"
 
 source "arch/arm/mach-stm32/Kconfig"
 

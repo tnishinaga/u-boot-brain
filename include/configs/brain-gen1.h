@@ -1,0 +1,23 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
+/*
+ * Based on the MuCross TMPA9xx U-Boot source release:
+ * https://mucross.com/downloads/tx09-linux/Release-20110309/src/
+ * (C) Copyright 2009,2010
+ * Kernel Concepts <www.kernelconcepts.de>
+ * Florian Boor (florian.boor@kernelconcepts.de)
+ */
+#ifndef __CONFIG_BRAIN_GEN1_H
+#define __CONFIG_BRAIN_GEN1_H
+#define PHYS_SDRAM_1 0x40000000
+#define PHYS_SDRAM_1_SIZE 0x04000000
+#define CONFIG_SYS_SDRAM_BASE PHYS_SDRAM_1
+#define CONFIG_SYS_INIT_SP_ADDR (PHYS_SDRAM_1 + 0x00100000)
+#define CONFIG_SYS_LOAD_ADDR 0x41000000
+#define CONFIG_SYS_MALLOC_LEN (256 * 1024)
+#define CONFIG_SYS_TIMER_RATE 32768
+#define CONFIG_SYS_HZ_CLOCK CONFIG_SYS_TIMER_RATE
+#define CONFIG_SYS_SERIAL0 0xf2000000
+#define CONFIG_PL01x_PORTS { (void *)CONFIG_SYS_SERIAL0 }
+#define CONFIG_PL011_CLOCK 96000000
+#define CONFIG_BOOTCOMMAND ""
+#endif
