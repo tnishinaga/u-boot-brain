@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: GPL-2.0+
+
+if ARCH_TMPA9XX
+config SYS_SOC
+	default "tmpa9xx"
+config TARGET_BRAIN_GEN1
+	bool "Sharp Brain first generation"
+source "board/sharp/brain-gen1/Kconfig"
+endif
