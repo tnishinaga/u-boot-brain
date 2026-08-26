@@ -686,6 +686,13 @@ config VIDEO
 	  model. Video drivers typically provide a colour text console and
 	  cursor.
 
+config VIDEO_TMPA9XX
+	bool "TMPA9xx LCD controller support"
+	depends on VIDEO && ARCH_TMPA9XX
+	default y if TARGET_BRAIN_GEN1
+	help
+	  Enable the legacy framebuffer driver for the TMPA910 LCDC.
+
 config CFB_CONSOLE
 	bool "Enable colour frame buffer console"
 	depends on VIDEO || ARCH_OMAP2PLUS
