@@ -16,6 +16,8 @@
 #define CONFIG_SYS_MALLOC_LEN (256 * 1024)
 /* Keep the fixed framebuffer below the U-Boot relocation area. */
 #define CONFIG_FB_ADDR 0x43e00000
+/* The LCDC scans 512 pixels per row, but only 480 reach the visible panel. */
+#define VIDEO_LINE_LEN (512 * 2)
 /*
  * The TMPA910 LCD takes the two 16-bit pixels in each cfb 32-bit glyph
  * store in the opposite order.  Use cfb_console's existing swap path.

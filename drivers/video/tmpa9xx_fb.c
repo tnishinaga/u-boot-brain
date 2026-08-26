@@ -85,7 +85,8 @@
  * the TMPA910 TRM, and the remaining GPIOs are board power/control signals;
  * they are deliberately not guessed here.
  */
-#define TMPA910_LCD_WIDTH	512
+#define TMPA910_LCD_SCAN_WIDTH	512
+#define TMPA910_LCD_VISIBLE_WIDTH	480
 #define TMPA910_LCD_HEIGHT	320
 #define TMPA910_LCD_BPP	16
 #define TMPA910_LCD_TIMING0_VALUE	0x0320317c
@@ -123,20 +124,21 @@ void *video_hw_init(void)
 	writel(TMPA910_LCD_CONTROL_VALUE & ~1, (void *)TMPA910_LCD_CONTROL);
 
 	memset((void *)CONFIG_FB_ADDR, 0,
-	       TMPA910_LCD_WIDTH * TMPA910_LCD_HEIGHT * TMPA910_LCD_BPP / 8);
+	       TMPA910_LCD_SCAN_WIDTH * TMPA910_LCD_HEIGHT *
+	       TMPA910_LCD_BPP / 8);
 
 	memset(&tmpa910_panel, 0, sizeof(tmpa910_panel));
 	tmpa910_panel.frameAdrs = CONFIG_FB_ADDR;
-	tmpa910_panel.memSize = TMPA910_LCD_WIDTH * TMPA910_LCD_HEIGHT *
+	tmpa910_panel.memSize = TMPA910_LCD_SCAN_WIDTH * TMPA910_LCD_HEIGHT *
 				TMPA910_LCD_BPP / 8;
 	tmpa910_panel.mode = 0;
 	tmpa910_panel.gdfIndex = GDF_16BIT_565RGB;
 	tmpa910_panel.gdfBytesPP = 2;
-	tmpa910_panel.plnSizeX = TMPA910_LCD_WIDTH;
+	tmpa910_panel.plnSizeX = TMPA910_LCD_SCAN_WIDTH;
 	tmpa910_panel.plnSizeY = TMPA910_LCD_HEIGHT;
-	tmpa910_panel.winSizeX = TMPA910_LCD_WIDTH;
+	tmpa910_panel.winSizeX = TMPA910_LCD_VISIBLE_WIDTH;
 	tmpa910_panel.winSizeY = TMPA910_LCD_HEIGHT;
-	strlcpy(tmpa910_panel.modeIdent, "TMPA910 512x320 RGB565",
+	strlcpy(tmpa910_panel.modeIdent, "TMPA910 480x320 RGB565 (512 stride)",
 		sizeof(tmpa910_panel.modeIdent));
 
 	/* Enable only after all LCDC configuration registers are programmed. */
