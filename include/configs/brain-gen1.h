@@ -21,8 +21,9 @@
  * store in the opposite order.  Use cfb_console's existing swap path.
  */
 #define VIDEO_FB_16BPP_WORD_SWAP
+#define CONFIG_KEYBOARD
 #define CONFIG_EXTRA_ENV_SETTINGS \
-	"stdin=serial\0" \
+	"stdin=serial,brain-kbd\0" \
 	"stdout=serial,vga\0" \
 	"stderr=serial,vga\0"
 #define CONFIG_SYS_TIMER_RATE 32768
