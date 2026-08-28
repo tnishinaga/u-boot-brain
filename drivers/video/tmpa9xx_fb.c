@@ -52,7 +52,6 @@
 /* LCD output drive strength (the LCD bit is PMCDRV[4]). */
 #define TMPA910_PMCDRV		0xf0020260
 #define TMPA910_PMCDRV_DRV_LCD	BIT(4)
-#define TMPA910_PMCCTL		0xf0020300
 
 /* The only documented LCDCOP field in the MuCross TMPA9xx headers. */
 #define TMPA910_LCDCOP_STN64CR		0xf00b0000
@@ -81,9 +80,10 @@
  * and PMCWV1=0x80.  LCDCOP[0] is the STN option register in the MuCross
  * headers; its 16bpp STN bit was clear on this TFT panel, so only that
  * documented bit is explicitly cleared below.  PMCCTL bit 6 (PMCPWE) was
- * also set in the capture and is preserved/enforced.  PMCWV1 is reserved in
- * the TMPA910 TRM, and the remaining GPIOs are board power/control signals;
- * they are deliberately not guessed here.
+ * also set in the capture and is enforced by the board early init, which
+ * also keeps Power Cut Mode disabled.  PMCWV1 is reserved in the TMPA910
+ * TRM, and the remaining GPIOs are board power/control signals; they are
+ * deliberately not guessed here.
  */
 #define TMPA910_LCD_SCAN_WIDTH	512
 #define TMPA910_LCD_VISIBLE_WIDTH	480
@@ -109,9 +109,6 @@ void *video_hw_init(void)
 	/* Keep the TFT path selected; do not alter undocumented LCDCOP bits. */
 	clrbits_le32((void *)TMPA910_LCDCOP_STN64CR,
 		     TMPA910_LCDCOP_STN64CR_G64_8BIT);
-	/* The measured panel state uses the PMC PWE output. */
-	setbits_le32((void *)TMPA910_PMCCTL, BIT(6));
-
 	/* The fixed address is reserved by CONFIG_FB_ADDR. */
 	writel(TMPA910_LCD_TIMING0_VALUE, (void *)TMPA910_LCD_TIMING0);
 	writel(TMPA910_LCD_TIMING1_VALUE, (void *)TMPA910_LCD_TIMING1);
