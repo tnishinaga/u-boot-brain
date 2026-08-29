@@ -8,6 +8,7 @@
  */
 #include <common.h>
 #include <asm/io.h>
+#define CLKCR0 0xf0050040
 #define CLKCR5 0xf0050054
 #define TIMER4 0xf0042000
 #define TIMER_LD (TIMER4 + 0x00)
@@ -21,12 +22,18 @@ static u16 last_count;
 static unsigned int stalled_reads;
 int timer_init(void)
 {
-	clrbits_le32((void *)CLKCR5, BIT(2));
+	/*
+	 * Brain Gen1 leaves the 32.768 kHz source stopped.  Enable the
+	 * Timer4/5 gate and derive an approximately 32 kHz clock from
+	 * fPCLK/2 with the timer's divide-by-256 prescaler instead.
+	 */
+	setbits_le32((void *)CLKCR0, BIT(7));
+	setbits_le32((void *)CLKCR5, BIT(2));
 	writel(0, (void *)TIMER_MODE);
 	writel(0, (void *)TIMER_CMPEN);
 	writel(0, (void *)TIMER_CAPEN);
 	writel(0xffff, (void *)TIMER_LD);
-	writel(0x82, (void *)TIMER_CONTROL);
+	writel(0x8a, (void *)TIMER_CONTROL);
 	last_count = readl((void *)TIMER_DATA) & 0xffff;
 	return 0;
 }
