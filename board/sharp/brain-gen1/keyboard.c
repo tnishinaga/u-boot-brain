@@ -9,6 +9,8 @@
  * The modifier assignments follow the Brainux Wiki Gxxxx/Axxxx table
  * (retrieved 2026-08-27):
  * https://wiki.brainux.org/beginners/get-started/
+ * The printable symbol layers follow:
+ * https://wiki.brainux.org/assets/images/keymap.png
  * Copyright Brainux Wiki contributors, licensed under CC BY-SA 4.0.
  *
  * The Port A/B register layout follows the TMPA910CRA hardware manual,
@@ -64,6 +66,22 @@ static const char *const brain_keymap[BRAIN_KBD_ROWS][BRAIN_KBD_COLS] = {
 	[7] = { " ", NULL, NULL, NULL, NULL, "\r", "\b", "\x15" },
 };
 
+/* Brainux symbol layers, indexed by the same physical matrix positions. */
+static const char *const brain_symbol_keymap[BRAIN_KBD_ROWS][BRAIN_KBD_COLS] = {
+	[2] = { "1", "2", "3", "4", "5", "6", "7", "8" },
+	[3] = { NULL, NULL, "`", "=", "\\", ";", "9", "0" },
+	[4] = { NULL, NULL, NULL, NULL, NULL, "'", "[", "]" },
+	[5] = { NULL, NULL, NULL, NULL, NULL, ",", ".", "/" },
+};
+
+static const char *const
+brain_symbol_shift_keymap[BRAIN_KBD_ROWS][BRAIN_KBD_COLS] = {
+	[2] = { "!", "@", "#", "$", "%", "^", "&", "*" },
+	[3] = { NULL, NULL, "~", "+", "|", ":", "(", ")" },
+	[4] = { NULL, NULL, NULL, NULL, NULL, "\"", "{", "}" },
+	[5] = { NULL, NULL, NULL, NULL, NULL, "<", ">", "?" },
+};
+
 static unsigned char brain_kbd_queue[BRAIN_KBD_QUEUE_SIZE];
 static unsigned int brain_kbd_queue_head;
 static unsigned int brain_kbd_queue_tail;
@@ -94,14 +112,26 @@ static void brain_kbd_queue_sequence(const char *sequence)
 		brain_kbd_queue_put(*sequence++);
 }
 
-static void brain_kbd_queue_key(const char *sequence, u64 modifiers)
+static bool brain_kbd_is_symbol_key(unsigned int row, unsigned int col)
 {
+	return row == 2 || row == 3 || row == 4 ||
+		(row == 5 && col >= 5);
+}
+
+static void brain_kbd_queue_key(unsigned int row, unsigned int col,
+				u64 modifiers)
+{
+	const char *sequence = brain_keymap[row][col];
 	unsigned char ch;
 
+	if ((modifiers & BRAIN_KBD_SYMBOL) &&
+	    brain_kbd_is_symbol_key(row, col)) {
+		if (modifiers & BRAIN_KBD_SHIFT)
+			sequence = brain_symbol_shift_keymap[row][col];
+		else
+			sequence = brain_symbol_keymap[row][col];
+	}
 	if (!sequence)
-		return;
-	/* No sourced PW-GC610 symbol layer is available yet. */
-	if (modifiers & BRAIN_KBD_SYMBOL)
 		return;
 
 	/* Alt prefixes both printable keys and command-line escape sequences. */
@@ -186,8 +216,8 @@ static void brain_kbd_poll(void)
 
 	brain_kbd_reported_key = key;
 	if (key != BRAIN_KBD_NO_KEY)
-		brain_kbd_queue_key(brain_keymap[key / BRAIN_KBD_COLS]
-					 [key % BRAIN_KBD_COLS], modifiers);
+		brain_kbd_queue_key(key / BRAIN_KBD_COLS,
+				    key % BRAIN_KBD_COLS, modifiers);
 }
 
 static int brain_kbd_tstc(struct stdio_dev *dev)
