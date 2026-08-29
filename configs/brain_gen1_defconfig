@@ -8,7 +8,7 @@ CONFIG_ENV_SIZE=0x2000
 # CONFIG_SKIP_LOWLEVEL_INIT is not set
 CONFIG_BOOTDELAY=2
 CONFIG_USE_BOOTARGS=y
-CONFIG_BOOTARGS="console=ttyAMA0,115200n8 earlycon=pl011,mmio32,0xf2000000 earlyprintk ignore_loglevel loglevel=8"
+CONFIG_BOOTARGS="earlycon=pl011,mmio32,0xf2000000 console=ttyAMA0,115200n8 console=tty0 ignore_loglevel loglevel=8"
 # CONFIG_USE_BOOTCOMMAND is not set
 CONFIG_VIDEO=y
 CONFIG_VIDEO_TMPA9XX=y
