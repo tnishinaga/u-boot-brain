@@ -76,6 +76,13 @@
  *   TIMING3=0x00010001,
  *   CONTROL=0x00010c29
  *
+ * Although bit 26 was set in that capture, the Brain hardware treats it as
+ * the PrimeCell divider-bypass bit.  With Linux also accessing SDRAM, bypass
+ * caused LCD FIFO underruns and a horizontally repeated image.  Clearing it
+ * and selecting PCD=2 (HCLK / (2 + 2)) removed both symptoms on hardware.
+ * The TMPA910 manual calls bit 26 reserved/write-zero, so the validated value
+ * below also follows the documented requirement.
+ *
  * The capture also had LCDCOP[0]=0x500000c1, PMCDRV=0x73, PMCCTL=0x40,
  * and PMCWV1=0x80.  LCDCOP[0] is the STN option register in the MuCross
  * headers; its 16bpp STN bit was clear on this TFT panel, so only that
@@ -91,7 +98,14 @@
 #define TMPA910_LCD_BPP	16
 #define TMPA910_LCD_TIMING0_VALUE	0x0320317c
 #define TMPA910_LCD_TIMING1_VALUE	0x0202253f
-#define TMPA910_LCD_TIMING2_VALUE	0x05ff1800
+#define TMPA910_LCD_TIMING2_CPL		((TMPA910_LCD_SCAN_WIDTH - 1) << 16)
+#define TMPA910_LCD_TIMING2_IHS		BIT(12)
+#define TMPA910_LCD_TIMING2_IVS		BIT(11)
+#define TMPA910_LCD_TIMING2_PCD		2
+#define TMPA910_LCD_TIMING2_VALUE	(TMPA910_LCD_TIMING2_CPL | \
+					 TMPA910_LCD_TIMING2_IHS | \
+					 TMPA910_LCD_TIMING2_IVS | \
+					 TMPA910_LCD_TIMING2_PCD)
 #define TMPA910_LCD_TIMING3_VALUE	0x00010001
 #define TMPA910_LCD_CONTROL_VALUE	0x00010c29
 
