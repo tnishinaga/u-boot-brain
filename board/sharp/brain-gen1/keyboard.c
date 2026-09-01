@@ -42,6 +42,7 @@
 #define BRAIN_KBD_NO_KEY	(-1)
 #define BRAIN_KBD_DEBOUNCE_MS	20
 #define BRAIN_KBD_QUEUE_SIZE	8
+#define BRAIN_KBD_SETTLE_US	10
 
 #define BRAIN_KBD_SHIFT		(1ULL << (5 * BRAIN_KBD_COLS + 0))
 #define BRAIN_KBD_CTRL		(1ULL << (5 * BRAIN_KBD_COLS + 1))
@@ -161,9 +162,16 @@ static u64 brain_kbd_scan(void)
 		u32 rows;
 		int row;
 
-		/* Open-drain outputs are active low; release every other KO. */
+		/*
+		 * Break before make.  A direct KO-to-KO transition can leave the
+		 * previous open-drain column low long enough for the next sample,
+		 * making one key look like an ambiguous multi-key chord.  Release
+		 * every KO and let the lines settle before driving the next column.
+		 */
+		writel(0xff, (void *)TMPA910_GPIOBDATA);
+		udelay(BRAIN_KBD_SETTLE_US);
 		writel(0xff & ~BIT(col), (void *)TMPA910_GPIOBDATA);
-		udelay(5);
+		udelay(BRAIN_KBD_SETTLE_US);
 		rows = ~readl((void *)TMPA910_GPIOADATA) & 0xff;
 
 		for (row = 0; row < BRAIN_KBD_ROWS; row++) {
