@@ -145,10 +145,6 @@ int dram_init(void)
 	return 0;
 }
 
-void lowlevel_init(void)
-{
-}
-
 void reset_cpu(void)
 {
 	for (;;)
