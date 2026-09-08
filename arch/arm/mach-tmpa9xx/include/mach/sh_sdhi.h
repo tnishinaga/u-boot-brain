@@ -129,7 +129,12 @@
 
 #define SET_SWAP			(BIT(6) | BIT(7))
 #define SOFT_RST_ON			0
-#define SOFT_RST_OFF			BIT(0)
+/*
+ * TMPA910 needs bit 1 set on reset release: 0x0001 transmits zero-filled
+ * sectors despite successful CMD24 status; 0x0003 passes PIO readback.
+ * Bit 1's internal function is undocumented.
+ */
+#define SOFT_RST_OFF			(BIT(0) | BIT(1))
 
 #define CLKDEV_SD_DATA			25000000
 #define CLKDEV_HS_DATA			50000000
