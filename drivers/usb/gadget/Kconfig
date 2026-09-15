@@ -74,6 +74,26 @@ config USB_GADGET_ATMEL_USBA
 	  USBA is the integrated high-speed USB Device controller on
 	  the AT32AP700x, some AT91SAM9 and AT91CAP9 processors from Atmel.
 
+config USB_GADGET_TMPA9XX
+	bool "Toshiba TMPA9xx UDC2"
+	depends on ARCH_TMPA9XX
+	select USB_GADGET_DUALSPEED
+	help
+	  Enable the Toshiba UDC2 and UDC2AB high-speed peripheral
+	  controller found in TMPA9xx SoCs.  The driver polls the controller,
+	  uses the PVCI FIFO for control traffic, and uses the UDC2AB AHB
+	  master-read path for EP1 bulk IN and master-write path for EP2 bulk
+	  OUT downloads.
+
+config TMPA9XX_USBCLK_X1USB
+	bool "Use the external X1USB clock input"
+	depends on USB_GADGET_TMPA9XX
+	help
+	  Select the dedicated X1USB 24 MHz input for UDC2.  The default
+	  selects the X1 crystal input.  Enable this only on a board wired for
+	  X1USB; the TMPA910 SYSCR0 USBCLKSEL field does not detect which input
+	  is fitted.
+
 config USB_GADGET_BCM_UDC_OTG_PHY
 	bool "Broadcom UDC OTG PHY"
 	help
