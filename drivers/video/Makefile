@@ -29,6 +29,7 @@ obj-$(CONFIG_ATI_RADEON_FB) += ati_radeon_fb.o videomodes.o
 obj-$(CONFIG_ATMEL_HLCD) += atmel_hlcdfb.o
 obj-$(CONFIG_ATMEL_LCD) += atmel_lcdfb.o
 obj-$(CONFIG_CFB_CONSOLE) += cfb_console.o
+obj-$(CONFIG_VIDEO_TMPA9XX) += tmpa9xx_fb.o
 obj-$(CONFIG_FORMIKE) += formike.o
 obj-$(CONFIG_FSL_DIU_FB) += fsl_diu_fb.o videomodes.o
 obj-$(CONFIG_IHS_VIDEO_OUT) += ihs_video_out.o
