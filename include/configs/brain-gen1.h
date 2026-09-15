@@ -25,12 +25,15 @@
 	"stderr=serial,vga\0" \
 	/* Fastboot downloads one FIT below the fixed framebuffer. */ \
 	"fastboot_bootcmd=bootm 0x42000000\0"
-#define CONFIG_SYS_TIMER_RATE 32768
+#define TMPA910_FCLK_HZ 200000000
+#define TMPA910_PCLK_HZ (TMPA910_FCLK_HZ / 2)
+/* Timer4 uses fPCLK/2 followed by its divide-by-256 prescaler. */
+#define CONFIG_SYS_TIMER_RATE (TMPA910_PCLK_HZ / 512)
 #define CONFIG_SYS_HZ_CLOCK CONFIG_SYS_TIMER_RATE
 #define CONFIG_SYS_SERIAL0 0xf2000000
 #define CONFIG_PL01x_PORTS { (void *)CONFIG_SYS_SERIAL0 }
-#define CONFIG_PL011_CLOCK 100000000
-#define CONFIG_SH_SDHI_FREQ 96000000
+#define CONFIG_PL011_CLOCK TMPA910_PCLK_HZ
+#define CONFIG_SH_SDHI_FREQ TMPA910_PCLK_HZ
 #define CONFIG_SYS_SH_SDHI_NR_CHANNEL 1
 #define CONFIG_SYS_MMC_MAX_BLK_COUNT 65535
 #endif
