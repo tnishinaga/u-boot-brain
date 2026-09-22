@@ -2,6 +2,8 @@
 /*
  * Sharp Brain first generation support, ported from MuCross TMPA9xx U-Boot:
  * https://mucross.com/downloads/tx09-linux/Release-20110309/src/
+ * Original source:
+ * u-boot-tmpa9xx-110310/board/tmpa9xx/tmpa9xx.c
  * (C) Copyright 2009,2010
  * Kernel Concepts <www.kernelconcepts.de>
  * Florian Boor (florian.boor@kernelconcepts.de)

@@ -2,6 +2,8 @@
 /*
  * Based on the MuCross TMPA9xx U-Boot source release:
  * https://mucross.com/downloads/tx09-linux/Release-20110309/src/
+ * Original board configuration:
+ * u-boot-tmpa9xx-110310/include/configs/topas910.h
  * (C) Copyright 2009,2010
  * Kernel Concepts <www.kernelconcepts.de>
  * Florian Boor (florian.boor@kernelconcepts.de)

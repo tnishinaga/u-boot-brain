@@ -17,6 +17,8 @@
  * sections 3.9.1 and 3.9.2 (pages 126-134).  Register names and addresses
  * were cross-checked against the MuCross TMPA9xx U-Boot source release:
  * https://mucross.com/downloads/tx09-linux/Release-20110309/src/
+ * Original header used for the register cross-check:
+ * u-boot-tmpa9xx-110310/arch/arm/include/asm/arch-tmpa9xx/tmpa9xx.h
  *
  * The following copyright notice is retained from the MuCross TMPA9xx
  * register header used for that cross-check:

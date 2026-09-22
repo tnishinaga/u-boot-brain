@@ -2,6 +2,8 @@
 /*
  * Ported from MuCross TMPA9xx U-Boot source release:
  * https://mucross.com/downloads/tx09-linux/Release-20110309/src/
+ * Original source:
+ * u-boot-tmpa9xx-110310/arch/arm/cpu/arm926ejs/tmpa9xx/timer.c
  * (C) Copyright 2009,2010
  * Kernel Concepts <www.kernelconcepts.de>
  * Florian Boor (florian.boor@kernelconcepts.de)

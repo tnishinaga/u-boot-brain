@@ -4,6 +4,8 @@
  *
  * Based on the MuCross TX09 Linux 2.6.36 TMPA9xx UDC driver:
  * https://mucross.com/downloads/tx09-linux/Release-20110309/src/
+ * Original source:
+ * linux-tmpa9xx-2.6.36-110310/drivers/usb/gadget/tmpa9xx_udc.c
  * Copyright (C) 2008
  *
  * This program is free software; you can redistribute it and/or modify

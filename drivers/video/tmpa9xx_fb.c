@@ -4,6 +4,8 @@
  *
  * Based on the MuCross TMPA9xx/TX09 U-Boot source release:
  * https://mucross.com/downloads/tx09-linux/Release-20110309/src/
+ * Original source:
+ * u-boot-tmpa9xx-110310/drivers/video/tmpa9xx_fb.c
  * In particular, the LCDC register programming follows the LCDC setup in
  * drivers/video/tmpa9xx_fb.c from that release.  The fixed framebuffer and
  * legacy cfb_console glue are specific to this board port.
