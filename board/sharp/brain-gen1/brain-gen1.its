@@ -1,0 +1,47 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
+/*
+ * Sharp Brain Gen1 Linux FIT image description.
+ */
+/dts-v1/;
+
+/ {
+	description = "Sharp Brain Gen1 Linux";
+	#address-cells = <1>;
+
+	images {
+		kernel {
+			description = "Linux zImage";
+			data = /incbin/("zImage");
+			type = "kernel";
+			arch = "arm";
+			os = "linux";
+			compression = "none";
+			load = <0x40008000>;
+			entry = <0x40008000>;
+			hash {
+				algo = "sha256";
+			};
+		};
+
+		fdt {
+			description = "Sharp Brain Gen1 device tree";
+			data = /incbin/("sharp-brain-gen1.dtb");
+			type = "flat_dt";
+			arch = "arm";
+			compression = "none";
+			load = <0x41100000>;
+			hash {
+				algo = "sha256";
+			};
+		};
+	};
+
+	configurations {
+		default = "conf";
+		conf {
+			description = "Sharp Brain Gen1";
+			kernel = "kernel";
+			fdt = "fdt";
+		};
+	};
+};
