@@ -18,6 +18,7 @@
 #define TIMER_CMPEN (TIMER4 + 0xe0)
 static ulong timestamp;
 static u16 last_count;
+static unsigned int stalled_reads;
 int timer_init(void)
 {
 	clrbits_le32((void *)CLKCR5, BIT(2));
@@ -32,6 +33,20 @@ int timer_init(void)
 static ulong tmpa9xx_get_ticks(void)
 {
 	u16 now = readl((void *)TIMER_DATA) & 0xffff;
+
+	/*
+	 * Brain Gen1 can enter through WinCE with the Timer4 source stopped.
+	 * Keep delay and timeout users alive until its clock source is known.
+	 */
+	if (now == last_count) {
+		if (++stalled_reads == 16) {
+			timestamp++;
+			stalled_reads = 0;
+		}
+		return timestamp;
+	}
+	stalled_reads = 0;
+
 	if (last_count >= now)
 		timestamp += last_count - now;
 	else

@@ -380,9 +380,10 @@ config MMC_OMAP36XX_PINS
 
 config SH_SDHI
 	bool "SuperH/Renesas ARM SoCs on-chip SDHI host controller support"
-	depends on ARCH_RMOBILE
+	depends on ARCH_RMOBILE || ARCH_TMPA9XX
 	help
-	  Support for the on-chip SDHI host controller on SuperH/Renesas ARM SoCs platform
+	  Support for the on-chip SDHI host controller on SuperH/Renesas ARM
+	  SoCs and the compatible SD host controller in Toshiba TMPA9xx SoCs.
 
 config SH_MMCIF
 	bool "SuperH/Renesas ARM SoCs on-chip MMCIF host controller support"

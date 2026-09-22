@@ -22,7 +22,12 @@
 #include <linux/compat.h>
 #include <linux/io.h>
 #include <linux/sizes.h>
+/*
+ * TMPA9xx supplies its own compatible register header.
+ */
+#ifdef CONFIG_ARCH_RMOBILE
 #include <asm/arch/rmobile.h>
+#endif
 #include <asm/arch/sh_sdhi.h>
 #include <asm/global_data.h>
 #include <clk.h>
@@ -156,7 +161,12 @@ static int sh_sdhi_intr(void *dev_id)
 
 static int sh_sdhi_wait_interrupt_flag(struct sh_sdhi_host *host)
 {
+#ifdef CONFIG_ARCH_TMPA9XX
+	/* A response completes quickly; keep JTAG bring-up failures bounded. */
+	int timeout = 100000;
+#else
 	int timeout = 10000000;
+#endif
 
 	while (1) {
 		timeout--;
