@@ -14,6 +14,19 @@
 #define CONFIG_SYS_INIT_SP_ADDR (PHYS_SDRAM_1 + 0x00100000)
 #define CONFIG_SYS_LOAD_ADDR 0x41000000
 #define CONFIG_SYS_MALLOC_LEN (256 * 1024)
+/* Keep the fixed framebuffer below the U-Boot relocation area. */
+#define CONFIG_FB_ADDR 0x43e00000
+/* The LCDC scans 512 pixels per row, but only 480 reach the visible panel. */
+#define VIDEO_LINE_LEN (512 * 2)
+/*
+ * The TMPA910 LCD takes the two 16-bit pixels in each cfb 32-bit glyph
+ * store in the opposite order.  Use cfb_console's existing swap path.
+ */
+#define VIDEO_FB_16BPP_WORD_SWAP
+#define CONFIG_EXTRA_ENV_SETTINGS \
+	"stdin=serial\0" \
+	"stdout=serial,vga\0" \
+	"stderr=serial,vga\0"
 #define CONFIG_SYS_TIMER_RATE 32768
 #define CONFIG_SYS_HZ_CLOCK CONFIG_SYS_TIMER_RATE
 #define CONFIG_SYS_SERIAL0 0xf2000000
